@@ -1,16 +1,22 @@
+import bcrypt from "bcryptjs";
 import { pool } from "../../db/index";
 import type { IUser } from "./user.interface";
 
 const createUserIntoDB = async (payload: IUser) => {
   const { name, email, age, password } = payload;
+
+  const hashPassword = await bcrypt.hash(password, 10);
+
   const result = await pool.query(
     `
-     INSERT INTO users (name,email,age,password) 
+     INSERT INTO users (name,email,age,password)
      VALUES ($1, $2, $3, $4) 
      RETURNING *
   `,
-    [name, email, age, password],
+    [name, email, age, hashPassword],
   );
+
+  delete result.rows[0].password;
 
   return result;
 };
@@ -19,6 +25,8 @@ const getAllUsersFromDB = async () => {
   const result = await pool.query(`
       SELECT * FROM users
       `);
+
+  delete result.rows[0].passwordF;
   return result;
 };
 
@@ -30,6 +38,8 @@ const getSingleUserFromDB = async (id: string) => {
       `,
     [id],
   );
+
+  delete result.rows[0].password;
   return result;
 };
 
@@ -49,24 +59,26 @@ const updateUserIntoDB = async (payload: IUser, id: string) => {
       `,
     [name, password, age, is_active, id],
   );
+
+  delete result.rows[0].password
   return result;
 };
 
 const deleteUserFromDB = async (id: string) => {
-   const result = await pool.query(
-      `
+  const result = await pool.query(
+    `
       DELETE FROM users
       WHERE id = $1
       `,
-      [id],
-    );
-    return result;
-}
+    [id],
+  );
+  return result;
+};
 
 export const userService = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateUserIntoDB,
-  deleteUserFromDB
+  deleteUserFromDB,
 };
