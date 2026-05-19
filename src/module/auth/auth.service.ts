@@ -33,6 +33,7 @@ const loginUserFromDB = async (payload: {
     name: user.name,
     email: user.email,
     is_active: user.is_active,
+    role: user.role,
   };
   const accessToken = jwt.sign(jtwpayload, config.secret as string, {expiresIn: "1d"} );
 
