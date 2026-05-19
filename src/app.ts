@@ -8,7 +8,6 @@ import { profileRoute } from "./module/profile/profile.route";
 import { authRoute } from "./module/auth/auth.route";
 import logger from "./middleware/logger";
 
-
 const app: Application = express();
 
 app.use(express.json());
@@ -25,5 +24,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/users", userRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/auth", authRoute);
+
+
 
 export default app;
