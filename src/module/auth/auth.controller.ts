@@ -8,10 +8,10 @@ const loginUser = async (req: Request, res: Response) => {
     const { refreshToken } = result;
 
     res.cookie("refreshToken", refreshToken, {
-      secure:false, // in production = true
-      httpOnly:true,
-      sameSite: 'lax'
-    })
+      secure: false, // in production = true
+      httpOnly: true,
+      sameSite: "lax",
+    });
 
     res.status(200).json({
       success: true,
@@ -27,6 +27,26 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
+const refreshToken = async (req: Request, res: Response) => {
+  try {
+    const result = await authService.generateRefreshtoken(req.cookies.refreshToken);
+
+
+    res.status(200).json({
+      success: true,
+      message: "Accesstoken generated!",
+      data: result,
+    });
+  } catch (error: unknown) {
+    res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : "Internal Server Error",
+      error: error,
+    });
+  }
+};
+
 export const authController = {
   loginUser,
+  refreshToken,
 };
