@@ -1,0 +1,11 @@
+
+Method=> GET Time => 1779101604299  Url=> / ::1
+Method=> GET Time => 1779101604405  Url=> /favicon.ico ::1
+Method=> GET || Time => 1779101672593 ||  Url=> / ::1
+Method=> GET || Time => 1779101697424 ||  Url=> /
+Method=> GET || Time => 1779101952509 ||  Url => /users
+Method=> GET || Time => 1779101974753 ||  Url => /api/users
+Method=> GET || Time => 1779101999851 ||  Url => /api/profile
+Method=> GET || Time => 1779102004589 ||  Url => /
+Method=> GET || Time => 1779102780743 ||  Url => /
+Method=> GET || Time => 1779102786387 ||  Url => /api/users

@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { pool } from "../../db/index";
 import { userService } from "./user.service";
+import sendResponse from "../../utility/sendResponse";
 
 const createUser = async (req: Request, res: Response) => {
   //   const { name, email, age, password } = req.body;
@@ -14,15 +15,18 @@ const createUser = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(201).json({
+    // res.status(201).json();
+    sendResponse(res, {
+      statusCode: 201,
       success: true,
       message: "User created successfully",
       data: result.rows[0],
     });
-  } catch (error: unknown) {
-    res.status(500).json({
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
       success: false,
-      message: error instanceof Error ? error.message : "Internal Server Error",
+      message: error.message,
       error: error,
     });
   }
